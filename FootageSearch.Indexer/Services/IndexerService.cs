@@ -120,10 +120,12 @@ namespace FootageSearch.Indexer.Services
                             var framePath = await _mediaService.ExtractFrameAsync(file, video.DurationSeconds / 2, settings.TempFolderPath);
                             
                             // OCR
+                            Log($"    [OCR] Analyzing text in frame...");
                             video.OcrText = await _ocrService.ExtractTextFromImageAsync(framePath);
                             Log($"    - OCR Text found: {video.OcrText}");
 
                             // Visual Description
+                            Log($"    [Visual AI] Analyzing image content (this may take a moment)...");
                             video.VisualDescription = await _visualAiService.DescribeImageAsync(framePath);
                             Log($"    - Visual Description: {video.VisualDescription}");
                             

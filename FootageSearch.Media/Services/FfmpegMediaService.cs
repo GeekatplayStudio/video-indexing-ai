@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using FootageSearch.Data.Models;
 using FootageSearch.Media.Interfaces;
@@ -25,9 +26,21 @@ namespace FootageSearch.Media.Services
             };
 
             probe.Start();
-            var json = await probe.StandardOutput.ReadToEndAsync();
-            await probe.WaitForExitAsync();
+            
+            // Add timeout for ffprobe (30 seconds)
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            try
+            {
+                await probe.WaitForExitAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                probe.Kill();
+                throw new TimeoutException($"ffprobe timed out while processing {filePath}");
+            }
 
+            var json = await probe.StandardOutput.ReadToEndAsync();
+            
             using var doc = JsonDocument.Parse(json);
             var format = doc.RootElement.GetProperty("format");
             var streams = doc.RootElement.GetProperty("streams");
@@ -64,7 +77,18 @@ namespace FootageSearch.Media.Services
 
             var ffmpeg = new Process
             {
-                StartInfo = new ProcessStartInfo
+            
+            // Add timeout for frame extraction (60 seconds)
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            try
+            {
+                await ffmpeg.WaitForExitAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                ffmpeg.Kill();
+                throw new TimeoutException($"ffmpeg timed out while extracting frame from {filePath}");
+            }Info
                 {
                     FileName = "ffmpeg",
                     Arguments = $"-ss {timeSeconds} -i \"{filePath}\" -frames:v 1 -q:v 2 \"{outputPath}\" -y",
