@@ -1,0 +1,81 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.App", "FootageSearch.App\FootageSearch.App.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Indexer", "FootageSearch.Indexer\FootageSearch.Indexer.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Api", "FootageSearch.Api\FootageSearch.Api.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Core", "FootageSearch.Core\FootageSearch.Core.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Data", "FootageSearch.Data\FootageSearch.Data.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Media", "FootageSearch.Media\FootageSearch.Media.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Transcription", "FootageSearch.Transcription\FootageSearch.Transcription.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.OCR", "FootageSearch.OCR\FootageSearch.OCR.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Embeddings", "FootageSearch.Embeddings\FootageSearch.Embeddings.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Search", "FootageSearch.Search\FootageSearch.Search.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootageSearch.Tests", "FootageSearch.Tests\FootageSearch.Tests.csproj", "{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60011}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-A1B2-C3D4E5F60011}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

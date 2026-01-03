@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FootageSearch.Core\FootageSearch.Core.csproj" />
+    <ProjectReference Include="..\FootageSearch.Data\FootageSearch.Data.csproj" />
+    <ProjectReference Include="..\FootageSearch.Embeddings\FootageSearch.Embeddings.csproj" />
+  </ItemGroup>
+</Project>

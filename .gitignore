@@ -1,0 +1,28 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Temporary files
+Temp/
+TestFootage/
+*.log
+*.tmp
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Environment specific
+.env
+
+# Icon generator
+IconGen/
+
+# Node
+node_modules/
