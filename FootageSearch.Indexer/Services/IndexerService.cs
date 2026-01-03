@@ -106,7 +106,11 @@ namespace FootageSearch.Indexer.Services
 
                         // 2. Transcription
                         Log($"  > Generating transcript...");
-                        video.Transcript = await _transcriptionService.TranscribeAudioAsync(file);
+                        
+                        // Create a progress wrapper that logs to our file
+                        var transProgress = new Progress<string>(msg => Log($"    [Whisper] {msg}"));
+                        
+                        video.Transcript = await _transcriptionService.TranscribeAudioAsync(file, transProgress);
                         Log($"    - Transcript length: {video.Transcript.Length} chars");
 
                         // 3. Frame Extraction & Visual AI

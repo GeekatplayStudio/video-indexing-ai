@@ -8,6 +8,7 @@ namespace FootageSearch.Data
     public class VideoDbContext : DbContext
     {
         public DbSet<VideoFile> VideoFiles { get; set; }
+        public DbSet<JobStatusEntity> JobStatuses { get; set; }
 
         public string DbPath { get; }
 

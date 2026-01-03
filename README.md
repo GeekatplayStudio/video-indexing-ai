@@ -36,10 +36,12 @@ Developed by **Geekatplay Studio**.
 
 ## Running
 
-1. Start Qdrant (Docker).
-2. Run `FootageSearch.Api`.
-3. Run `FootageSearch.Indexer`.
-4. Run `FootageSearch.App`.
+1. Run `start.bat` to launch the entire system (checks dependencies, starts Qdrant/Ollama, and launches the app).
+2. Alternatively:
+   - Start Qdrant (Docker or Local).
+   - Run `FootageSearch.Api`.
+   - Run `FootageSearch.Indexer`.
+   - Run `FootageSearch.App`.
 
 ## Resolve Plugin
 

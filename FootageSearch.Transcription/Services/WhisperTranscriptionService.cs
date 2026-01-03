@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using FootageSearch.Transcription.Interfaces;
 using Whisper.net;
@@ -24,7 +25,7 @@ namespace FootageSearch.Transcription.Services
             Directory.CreateDirectory(_tempPath);
         }
 
-        public async Task<string> TranscribeAudioAsync(string videoFilePath)
+        public async Task<string> TranscribeAudioAsync(string videoFilePath, IProgress<string>? progress = null)
         {
             try
             {
@@ -32,6 +33,7 @@ namespace FootageSearch.Transcription.Services
                 var modelPath = Path.Combine(_modelsPath, "ggml-base.bin");
                 if (!File.Exists(modelPath))
                 {
+                    progress?.Report("Downloading Whisper model...");
                     using var httpClient = new HttpClient();
                     var downloader = new WhisperGgmlDownloader(httpClient);
                     using var stream = await downloader.GetGgmlModelAsync(GgmlType.Base);
@@ -40,6 +42,7 @@ namespace FootageSearch.Transcription.Services
                 }
 
                 // 2. Extract Audio using FFmpeg
+                progress?.Report("Extracting audio...");
                 var audioPath = Path.Combine(_tempPath, $"{Path.GetFileNameWithoutExtension(videoFilePath)}_{Guid.NewGuid()}.wav");
                 
                 // FFmpeg command to extract 16kHz mono wav
@@ -55,7 +58,17 @@ namespace FootageSearch.Transcription.Services
 
                 using (var process = Process.Start(startInfo))
                 {
-                    await process.WaitForExitAsync();
+                    // Wait max 5 minutes for audio extraction
+                    var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+                    try
+                    {
+                        await process.WaitForExitAsync(cts.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        process.Kill();
+                        return "Error: Audio extraction timed out.";
+                    }
                 }
 
                 if (!File.Exists(audioPath))
@@ -64,6 +77,7 @@ namespace FootageSearch.Transcription.Services
                 }
 
                 // 3. Transcribe
+                progress?.Report("Starting transcription...");
                 using var whisperFactory = WhisperFactory.FromPath(modelPath);
                 using var processor = whisperFactory.CreateBuilder()
                     .WithLanguage("auto")
@@ -72,9 +86,15 @@ namespace FootageSearch.Transcription.Services
                 using var fileStream = File.OpenRead(audioPath);
                 var transcript = "";
                 
+                int segmentCount = 0;
                 await foreach (var segment in processor.ProcessAsync(fileStream))
                 {
                     transcript += segment.Text + " ";
+                    segmentCount++;
+                    if (segmentCount % 5 == 0)
+                    {
+                        progress?.Report($"Transcribing... ({segment.Start} - {segment.End})");
+                    }
                 }
 
                 // Cleanup
