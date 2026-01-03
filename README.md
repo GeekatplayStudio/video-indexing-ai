@@ -1,6 +1,7 @@
-# FootageSearch
+# FootageSearch by Geekatplay Studio
 
 Local media indexing/search application with DaVinci Resolve Studio 20 integration.
+Developed by **Geekatplay Studio**.
 
 ## Structure
 

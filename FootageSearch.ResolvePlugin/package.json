@@ -2,6 +2,7 @@
   "name": "footagesearch-resolve-plugin",
   "version": "1.0.0",
   "description": "DaVinci Resolve Workflow Integration Plugin for FootageSearch",
+  "author": "Geekatplay Studio",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
