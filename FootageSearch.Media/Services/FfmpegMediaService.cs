@@ -77,18 +77,7 @@ namespace FootageSearch.Media.Services
 
             var ffmpeg = new Process
             {
-            
-            // Add timeout for frame extraction (60 seconds)
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
-            try
-            {
-                await ffmpeg.WaitForExitAsync(cts.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                ffmpeg.Kill();
-                throw new TimeoutException($"ffmpeg timed out while extracting frame from {filePath}");
-            }Info
+                StartInfo = new ProcessStartInfo
                 {
                     FileName = "ffmpeg",
                     Arguments = $"-ss {timeSeconds} -i \"{filePath}\" -frames:v 1 -q:v 2 \"{outputPath}\" -y",
@@ -100,7 +89,18 @@ namespace FootageSearch.Media.Services
             };
 
             ffmpeg.Start();
-            await ffmpeg.WaitForExitAsync();
+
+            // Add timeout for frame extraction (60 seconds)
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            try
+            {
+                await ffmpeg.WaitForExitAsync(cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                ffmpeg.Kill();
+                throw new TimeoutException($"ffmpeg timed out while extracting frame from {filePath}");
+            }
 
             return outputPath;
         }
