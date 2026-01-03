@@ -26,3 +26,9 @@ IconGen/
 
 # Node
 node_modules/
+
+# Local Data & Tools
+Qdrant/
+storage/
+.qdrant-initialized
+
