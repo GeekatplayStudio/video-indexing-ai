@@ -14,7 +14,7 @@ namespace FootageSearch.App
     public partial class SettingsWindow : Window
     {
         private readonly ISettingsService _settingsService;
-        private AppSettings _currentSettings;
+        private AppSettings _currentSettings = null!;
 
         public SettingsWindow()
         {
@@ -134,9 +134,9 @@ namespace FootageSearch.App
             _currentSettings.OllamaApiUrl = OllamaUrlTextBox.Text;
             _currentSettings.OllamaModel = OllamaModelTextBox.Text;
             _currentSettings.OllamaEmbeddingModel = OllamaEmbeddingModelTextBox.Text;
-            if (WhisperModelComboBox.SelectedItem is ComboBoxItem selectedItem)
+            if (WhisperModelComboBox.SelectedItem is ComboBoxItem selectedItem && selectedItem.Content != null)
             {
-                _currentSettings.WhisperModelType = selectedItem.Content.ToString();
+                _currentSettings.WhisperModelType = selectedItem.Content.ToString() ?? "base";
             }
 
             _settingsService.SaveSettings(_currentSettings);

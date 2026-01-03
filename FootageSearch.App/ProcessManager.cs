@@ -6,9 +6,6 @@ namespace FootageSearch.App
 {
     public static class ProcessManager
     {
-        private static Process? _apiProcess;
-        private static Process? _indexerProcess;
-
         public static void StartServices()
         {
             // Assuming we are running from the build output, the other executables should be nearby
@@ -39,20 +36,6 @@ namespace FootageSearch.App
         {
             KillProcess("FootageSearch.Api");
             KillProcess("FootageSearch.Indexer");
-            
-            // Also kill any dotnet processes that might be ours (risky, but requested)
-            // "be sure we dont creating orphanc processing"
-            // We can't easily know which dotnet process is ours without tracking PIDs.
-            
-            if (_apiProcess != null && !_apiProcess.HasExited)
-            {
-                try { _apiProcess.Kill(); } catch { }
-            }
-
-            if (_indexerProcess != null && !_indexerProcess.HasExited)
-            {
-                try { _indexerProcess.Kill(); } catch { }
-            }
         }
 
         private static void KillProcess(string processName)

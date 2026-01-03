@@ -81,7 +81,8 @@ $apiProcess = Start-Process -FilePath $dotnet -ArgumentList "run --project Foota
 
 # Start Indexer
 Write-Host "Launching Indexer..."
-$indexerProcess = Start-Process -FilePath $dotnet -ArgumentList "run --project FootageSearch.Indexer/FootageSearch.Indexer.csproj" -PassThru -WindowStyle Hidden
+$indexerProcess = Start-Process -FilePath $dotnet -ArgumentList "run --project FootageSearch.Indexer/FootageSearch.Indexer.csproj" -PassThru
+
 
 # Start App (Blocking? No, we want to monitor)
 Write-Host "Launching App..."

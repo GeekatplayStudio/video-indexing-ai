@@ -50,6 +50,11 @@ namespace FootageSearch.Embeddings.Services
             return results.Select(r => (Guid.Parse(r.Id.Uuid), (double)r.Score)).ToList();
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            await _client.DeleteAsync(CollectionName, new[] { id });
+        }
+
         public async Task DeleteCollectionAsync()
         {
             var collections = await _client.ListCollectionsAsync();

@@ -12,19 +12,23 @@ using FootageSearch.Search.Services;
 using FootageSearch.Transcription.Services;
 using FootageSearch.OCR.Services;
 using FootageSearch.AI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace FootageSearch.App
 {
     public partial class MainWindow : Window
     {
-        private IndexerService _indexerService;
-        private SearchService _searchService;
+        private IndexerService _indexerService = null!;
+        private SearchService _searchService = null!;
+        private VideoDbContext _dbContext = null!;
+        private System.Windows.Threading.DispatcherTimer _statusTimer = null!;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeServices();
             LoadAllFiles();
+            SetupStatusPolling();
         }
 
         private void InitializeServices()
@@ -34,7 +38,7 @@ namespace FootageSearch.App
 
             var mediaService = new FfmpegMediaService();
             var vectorDbService = new QdrantService();
-            var dbContext = new VideoDbContext();
+            _dbContext = new VideoDbContext();
             var transcriptionService = new WhisperTranscriptionService();
             var ocrService = new TesseractOcrService();
             
@@ -42,8 +46,38 @@ namespace FootageSearch.App
             var visualAiService = new OllamaVisualAiService(settings.OllamaApiUrl, settings.OllamaModel);
             var embeddingService = new OllamaEmbeddingService(settings.OllamaApiUrl, settings.OllamaEmbeddingModel);
 
-            _indexerService = new IndexerService(settingsService, mediaService, vectorDbService, transcriptionService, ocrService, visualAiService, embeddingService, dbContext);
-            _searchService = new SearchService(dbContext, vectorDbService);
+            _indexerService = new IndexerService(settingsService, mediaService, vectorDbService, transcriptionService, ocrService, visualAiService, embeddingService, _dbContext);
+            _searchService = new SearchService(_dbContext, vectorDbService);
+        }
+
+        private void SetupStatusPolling()
+        {
+            _statusTimer = new System.Windows.Threading.DispatcherTimer();
+            _statusTimer.Interval = TimeSpan.FromSeconds(1);
+            _statusTimer.Tick += StatusTimer_Tick;
+            _statusTimer.Start();
+        }
+
+        private async void StatusTimer_Tick(object? sender, EventArgs e)
+        {
+            try
+            {
+                // Use a separate context for polling to avoid concurrency issues
+                using var context = new VideoDbContext();
+                // We need to check if the database exists first
+                if (!await context.Database.CanConnectAsync()) return;
+
+                var status = await context.JobStatuses.FirstOrDefaultAsync(j => j.ServiceName == "Indexer");
+                if (status != null)
+                {
+                    // Only update status text if we are not in the middle of a manual re-index (which shows the log panel)
+                    if (LogPanel.Visibility != Visibility.Visible)
+                    {
+                        StatusText.Text = $"Indexer: [{status.CurrentTask}] {status.Detail}";
+                    }
+                }
+            }
+            catch { }
         }
 
         private async void LoadAllFiles()
@@ -53,7 +87,7 @@ namespace FootageSearch.App
                 var files = await _searchService.GetAllFilesAsync();
                 ResultsList.ItemsSource = files;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Database might not exist yet
                 StatusText.Text = "Database empty or not initialized.";
@@ -83,6 +117,8 @@ namespace FootageSearch.App
             LoadingOverlay.Visibility = Visibility.Visible;
             LoadingBar.IsIndeterminate = true;
             
+            bool skipIndexed = SkipIndexedCheckBox.IsChecked ?? true;
+            
             var progress = new Progress<string>(status => 
             {
                 StatusText.Text = status;
@@ -93,7 +129,7 @@ namespace FootageSearch.App
 
             try
             {
-                await Task.Run(() => _indexerService.ReIndexAsync(progress));
+                await Task.Run(() => _indexerService.ReIndexAsync(progress, skipIndexed));
                 MessageBox.Show("Indexing Complete!");
                 LoadAllFiles();
             }

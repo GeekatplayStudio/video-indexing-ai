@@ -45,7 +45,7 @@ namespace FootageSearch.Indexer.Services
             _dbContext = dbContext;
         }
 
-        public async Task ReIndexAsync(IProgress<string> progress)
+        public async Task ReIndexAsync(IProgress<string> progress, bool skipIndexed = true)
         {
             var settings = _settingsService.LoadSettings();
             var logPath = Path.Combine(settings.TempFolderPath, $"indexing_log_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
@@ -87,10 +87,31 @@ namespace FootageSearch.Indexer.Services
                 foreach (var file in files)
                 {
                     var fileName = Path.GetFileName(file);
-                    if (_dbContext.VideoFiles.Any(v => v.FilePath == file))
+                    var existing = _dbContext.VideoFiles.FirstOrDefault(v => v.FilePath == file);
+                    
+                    if (existing != null)
                     {
-                        Log($"[Skip] Already indexed: {fileName}");
-                        continue;
+                        if (skipIndexed)
+                        {
+                            Log($"[Skip] Already indexed: {fileName}");
+                            continue;
+                        }
+                        else
+                        {
+                            Log($"[Update] Re-indexing: {fileName}");
+                            try 
+                            {
+                                // Remove from Vector DB
+                                await _vectorDbService.DeleteAsync(existing.VectorId);
+                                // Remove from SQLite
+                                _dbContext.VideoFiles.Remove(existing);
+                                await _dbContext.SaveChangesAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                Log($"[Warning] Failed to clean up existing entry: {ex.Message}");
+                            }
+                        }
                     }
 
                     Log($"[Info] Processing: {fileName}");

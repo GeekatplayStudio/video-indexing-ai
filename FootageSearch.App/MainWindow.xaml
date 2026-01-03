@@ -29,6 +29,8 @@
                 <Button Content="Settings" Click="Settings_Click"/>
                 <Separator/>
                 <Button Content="Re-Index" Click="ReIndex_Click"/>
+                <Separator/>
+                <CheckBox x:Name="SkipIndexedCheckBox" Content="Skip Indexed" IsChecked="True" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </ToolBar>
         </ToolBarTray>
 
